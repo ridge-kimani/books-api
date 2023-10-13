@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, Integer, String, LargeBinary
+from sqlalchemy import Column, DateTime, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import func
@@ -17,21 +17,13 @@ class Author(Base):
     username = Column(String)
     first_name = Column(String)
     last_name = Column(String)
-    _password = Column(String, nullable=False)
+    password = Column(String, nullable=False)
     created = Column(DateTime(timezone=True), server_default=func.now())
     updated = Column(DateTime(timezone=True), onupdate=func.now())
 
     @hybrid_property
     def name(self):
         return f"{self.first_name} {self.last_name}"
-
-    @hybrid_property
-    def password(self):
-        return self._password
-
-    @password.setter
-    def password(self, password):
-        self._password = password
 
     @staticmethod
     def hash_password(password):
