@@ -23,11 +23,11 @@ def login(author: LoginSchema):
             status_code=status.HTTP_404_NOT_FOUND,
             content=dict(message="Username not found."),
         )
-    # if not Author.verify_password(author_obj.get("password"), author.password):
-    #     return JSONResponse(
-    #         status_code=status.HTTP_403_FORBIDDEN,
-    #         content=dict(message="Incorrect password"),
-    #     )
+    if not Author.verify_password(author_obj.get("password"), author.password):
+        return JSONResponse(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            content=dict(message="Incorrect password"),
+        )
 
     token = create_access_token(data=dict(sub=author.username))
     return JSONResponse(
@@ -50,7 +50,8 @@ def register(author: RegisterSchema):
             content=dict(message="User exists with that username"),
         )
 
-    db_item = Author(**author)
+    password = Author.hash_password(author.pop('password'))
+    db_item = Author(**author, password=password)
     db.session.add(db_item)
     db.session.commit()
     db.session.refresh(db_item)
