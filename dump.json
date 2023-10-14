@@ -1,8 +1,8 @@
 [
   {
-    "username": "james_clear",
-    "first_name": "James",
-    "last_name": "Clear",
+    "username": "first_user",
+    "first_name": "First",
+    "last_name": "User",
     "password": "pswd_author321",
     "books": [
       {
@@ -10,7 +10,6 @@
         "author": "james_clear",
         "isbn": "9781847941831",
         "pages": "306",
-        "publisher": "Penguin",
         "cost": "16.99"
       },
       {
@@ -18,15 +17,14 @@
         "author": "james_clear",
         "isbn": "4751747941731",
         "pages": "200",
-        "publisher": "Penguin",
         "cost": "3.99"
       }
     ]
   },
   {
-    "username": "brian_greene",
-    "first_name": "Brian",
-    "last_name": "Greene",
+    "username": "another_user",
+    "first_name": "Another",
+    "last_name": "User",
     "password": "yui_09_ne",
     "books": [
       {
@@ -34,7 +32,6 @@
         "author": "brian_greene",
         "isbn": "47517242441731",
         "pages": "500",
-        "publisher": "www.pengiuin.co.ke",
         "cost": "3.99"
       },
         {
@@ -42,23 +39,20 @@
         "author": "james_clear",
         "isbn": "4751747941731",
         "pages": "200",
-        "publisher": "www.pengiuin.co.ke",
         "cost": "3.99"
       },
         {
         "name": "Fabric of the Cosmos",
-        "author": "james_clear",
+        "author": "brian_greene",
         "isbn": "4751747941731",
         "pages": "235",
-        "publisher": "www.pengiuin.co.ke",
         "cost": "3.99"
       },
         {
         "name": "The hidden reality",
-        "author": "james_clear",
+        "author": "brian_green",
         "isbn": "4751747941731",
         "pages": "285",
-        "publisher": "www.pengiuin.co.ke",
         "cost": "3.99"
       }
     ]
@@ -74,7 +68,6 @@
         "author": "uncle_bob",
         "isbn": "5323672441731",
         "pages": "320",
-        "publisher": "Pearson",
         "cost": "$29.99"
       },
         {
@@ -82,7 +75,6 @@
         "author": "uncle_bob",
         "isbn": "7443678442227",
         "pages": "246",
-        "publisher": "Pearson",
         "cost": "$23.99"
       },
         {
@@ -90,7 +82,6 @@
         "author": "uncle_bob",
         "isbn": "853231457897",
         "pages": "311",
-        "publisher": "Pearson",
         "cost": "$31.99"
       },
         {
@@ -98,7 +89,6 @@
         "author": "uncle_bob",
         "isbn": "8765432456755",
         "pages": "235",
-        "publisher": "Pearson",
         "cost": "$13.99"
       }
     ]
