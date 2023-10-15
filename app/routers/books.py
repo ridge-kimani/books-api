@@ -12,7 +12,7 @@ router = APIRouter(prefix="/authors/{author_id}/books", tags=["books"])
 
 @router.get("/")
 def get_all(current_user: User = Depends(get_current_user)):
-    return JSONResponse(status_code=status.HTTP_200_OK, content=dict(message="Successful"))
+    return JSONResponse(status_code=status.HTTP_200_OK, content=dict(detail="Successful"))
 
 
 @router.get("/{book_id}")
@@ -20,12 +20,12 @@ def get(author_id, book_id, current_user: User = Depends(get_current_user)):
     book = Book.get_by_author(book_id, author_id)
 
     if not book:
-        return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content=dict(message="Book not found."))
+        return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content=dict(detail="Book not found."))
 
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content=dict(
-            message="Successful",
+            detail="Successful",
             book=dict(id=book.id, title=book.title, author_id=author_id)
         ),
     )
@@ -37,7 +37,7 @@ def create(author_id, book: BookSchema, current_user: User = Depends(get_current
     db_item = Book(**book, author_id=author_id).save(db)
     return JSONResponse(
         status_code=status.HTTP_201_CREATED,
-        content=dict(message="Book created successful.", book=dict(id=db_item.id, name=db_item.title)),
+        content=dict(detail="Book created successfully.", book=dict(id=db_item.id, name=db_item.title)),
     )
 
 
@@ -59,7 +59,7 @@ def edit(author_id, book_id, book: EditBookSchema, current_user: User = Depends(
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content=dict(
-            message="Successful",
+            detail="Book edited successfully.",
             book=dict(
                 title=updated_book.title,
                 isbn=updated_book.isbn,
@@ -76,5 +76,7 @@ def edit(author_id, book_id, book: EditBookSchema, current_user: User = Depends(
 @router.delete("/{book_id}")
 def delete(author_id, book_id, current_user: User = Depends(get_current_user)):
     Book.get_by_author(book_id, author_id).delete(db)
-    return JSONResponse(status_code=status.HTTP_200_OK, content=dict(message="Successful"))
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content=dict(detail="Book deleted successfully"))
 
