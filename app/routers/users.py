@@ -21,19 +21,19 @@ def login(user: LoginSchema):
     if not user:
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
-            content=dict(message="Username not found."),
+            content=dict(detail="Username not found.", field="username"),
         )
     if not User.verify_password(user_obj.get("password"), user.password):
         return JSONResponse(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            content=dict(message="Incorrect password"),
+            content=dict(detail="Incorrect password.", field="password"),
         )
 
     token = create_access_token(data=dict(sub=user.username))
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content=dict(
-            message="Login successful",
+            detail="Login successful.",
             user=dict(id=user.id, username=user.username),
             token=token
         )
@@ -47,7 +47,7 @@ def register(user: RegisterSchema):
     if User.exists(username=user.get("username")):
         return JSONResponse(
             status_code=status.HTTP_409_CONFLICT,
-            content=dict(message="User exists with that username"),
+            content=dict(detail="User exists with that username"),
         )
 
     password = User.hash_password(user.pop('password'))
@@ -56,7 +56,7 @@ def register(user: RegisterSchema):
     return JSONResponse(
         status_code=status.HTTP_201_CREATED,
         content=dict(
-            message="User created successfully.",
+            detail="User created successfully.",
             user=user.get("username"),
             token=token
         )
