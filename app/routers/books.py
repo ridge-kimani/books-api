@@ -79,4 +79,3 @@ def delete(author_id, book_id, current_user: User = Depends(get_current_user)):
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content=dict(detail="Book deleted successfully"))
-

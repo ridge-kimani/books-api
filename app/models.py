@@ -116,4 +116,3 @@ class Author(BaseUser):
     def get_all():
         authors = db.session.query(Author)
         return authors
-
