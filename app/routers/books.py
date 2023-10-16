@@ -12,6 +12,7 @@ router = APIRouter(prefix="/authors/{author_id}/books", tags=["books"])
 
 @router.get("/")
 def get_all(current_user: User = Depends(get_current_user)):
+
     return JSONResponse(status_code=status.HTTP_200_OK, content=dict(detail="Successful"))
 
 
@@ -25,19 +26,29 @@ def get(author_id, book_id, current_user: User = Depends(get_current_user)):
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content=dict(
-            detail="Successful",
+            detail="Fetch book successful.",
             book=dict(id=book.id, title=book.title, author_id=author_id)
         ),
     )
 
 
 @router.post("/")
-def create(author_id, book: BookSchema, current_user: User = Depends(get_current_user)):
-    book = book.dict()
-    db_item = Book(**book, author_id=author_id).save(db)
+def create(author_id, books: BookSchema, current_user: User = Depends(get_current_user)):
+    data = books.dict()
+    instances = []
+    for book in data.get('books'):
+        model_instance = Book(**book, author_id=author_id)
+        instances.append(model_instance)
+
+    db.session.add_all(instances)
+    db.session.commit()
+    db.session.close()
     return JSONResponse(
         status_code=status.HTTP_201_CREATED,
-        content=dict(detail="Book created successfully.", book=dict(id=db_item.id, name=db_item.title)),
+        content=dict(
+            detail="Books created successfully.",
+            books=data.get('books')
+        )
     )
 
 

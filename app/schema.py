@@ -21,7 +21,6 @@ class RegisterSchema(BaseModel):
 
 class AuthorSchema(BaseModel):
     first_name: str
-    last_name: str
     created_by: int
 
     class Config:
@@ -38,12 +37,7 @@ class EditAuthorSchema(BaseModel):
 
 
 class BookSchema(BaseModel):
-    title: str
-    isbn: str
-    pages: int
-    cost: float
-    publish_year: int
-    currency: str
+    books: list = []
 
     class Config:
         orm_mode = True

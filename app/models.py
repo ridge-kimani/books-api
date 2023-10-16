@@ -100,6 +100,17 @@ class Book(BaseModel):
         book = db.session.query(Book).filter(and_(Book.id == book_id, Book.author_id == author_id)).first()
         return book
 
+    @hybrid_property
+    def serialize(self):
+        return dict(
+            title=self.title,
+            isbn=self.isbn,
+            pages=self.pages,
+            currency=self.currency,
+            cost=self.cost,
+            publish_year=self.publish_year
+        )
+
 
 class Author(BaseUser):
     __tablename__ = "authors"
@@ -116,3 +127,7 @@ class Author(BaseUser):
     def get_all():
         authors = db.session.query(Author)
         return authors
+
+    @hybrid_property
+    def serialize(self):
+        return dict(name=self.name, created=self.created, updated=self.updated)
