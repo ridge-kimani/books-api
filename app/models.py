@@ -39,7 +39,9 @@ class BaseUser(BaseModel):
 
     @hybrid_property
     def name(self):
-        return f"{self.first_name} {self.last_name}"
+        if self.last_name:
+            return f"{self.first_name} {self.last_name}"
+        return self.first_name
 
 
 class User(BaseUser):
@@ -100,6 +102,11 @@ class Book(BaseModel):
         book = db.session.query(Book).filter(and_(Book.id == book_id, Book.author_id == author_id)).first()
         return book
 
+    @staticmethod
+    def get_all_by_author(author_id):
+        books = db.session.query(Book).filter(Book.author_id == author_id).all()
+        return books
+
     @hybrid_property
     def serialize(self):
         return dict(
@@ -108,7 +115,7 @@ class Book(BaseModel):
             pages=self.pages,
             currency=self.currency,
             cost=self.cost,
-            publish_year=self.publish_year
+            publish_year=self.publish_year,
         )
 
 
@@ -124,8 +131,15 @@ class Author(BaseUser):
         return author
 
     @staticmethod
-    def get_all():
-        authors = db.session.query(Author)
+    def get_all(user_id):
+        authors = (
+            db.session.query(Author, func.count(Book.id).label("book_count"))
+            .join(Book)
+            .group_by(Author)
+            .filter(Author.created_by == user_id)
+            .all()
+        )
+
         return authors
 
     @hybrid_property

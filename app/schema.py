@@ -19,6 +19,12 @@ class RegisterSchema(BaseModel):
         orm_mode = True
 
 
+class GetAuthorSchema(BaseModel):
+    name: str
+    count: int
+    id: int
+
+
 class AuthorSchema(BaseModel):
     first_name: str
     created_by: int
@@ -45,3 +51,13 @@ class BookSchema(BaseModel):
 
 class EditBookSchema(BaseModel):
     title: str
+
+
+class GetBookSchema(BaseModel):
+    title: str
+    isbn: str
+    pages: int
+    publish_year: int
+    cost: float
+    currency: str
+    author: str

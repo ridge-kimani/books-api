@@ -1,8 +1,10 @@
 from fastapi import APIRouter, status, Depends
+from fastapi.encoders import jsonable_encoder
+
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db
 from app.models import Author, User
-from app.schema import AuthorSchema, EditAuthorSchema
+from app.schema import AuthorSchema, EditAuthorSchema, GetAuthorSchema
 from app.security import get_current_user
 
 
@@ -14,9 +16,17 @@ router = APIRouter(
 
 @router.get("/")
 def get_all(current_user: User = Depends(get_current_user)):
-    authors = Author.get_all()
-    print(authors)
-    return JSONResponse(status_code=status.HTTP_200_OK, content=dict(detail="Authors get successful."))
+    all_authors = Author.get_all(user_id=current_user.id)
+
+    authors = [
+        GetAuthorSchema(count=count, id=author.id, name=author.name)
+        for author, count in all_authors
+    ]
+
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content=dict(detail="Authors get successful.", authors=jsonable_encoder(authors)),
+    )
 
 
 @router.get("/{author_id}")
@@ -29,13 +39,8 @@ def get(author_id, current_user: User = Depends(get_current_user)):
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content=dict(
-            detail="Author get Successful.",
-            author=dict(
-                id=author.id,
-                name=author.name,
-                created_by=author.created_by
-            )
-        )
+            detail="Author get Successful.", author=dict(id=author.id, name=author.name, created_by=author.created_by)
+        ),
     )
 
 
@@ -47,12 +52,8 @@ def create(author: AuthorSchema, current_user: User = Depends(get_current_user))
         status_code=status.HTTP_201_CREATED,
         content=dict(
             detail="Author created successfully.",
-            author=dict(
-                id=db_item.id,
-                name=db_item.name,
-                created_by=db_item.created_by
-            )
-        )
+            author=dict(id=db_item.id, name=db_item.name, created_by=db_item.created_by),
+        ),
     )
 
 

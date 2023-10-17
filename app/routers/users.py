@@ -29,7 +29,7 @@ def login(user: LoginSchema):
             content=dict(detail="Incorrect password.", field="password"),
         )
 
-    token = create_access_token(data=dict(sub=user.username))
+    token = create_access_token(data=dict(sub=user.username, id=user.id))
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content=dict(

@@ -34,9 +34,10 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
+        user_id = payload.get("id")
         if username is None:
             raise HTTPException(status_code=400, detail="Token not found")
-        token_data = User(username=username)
+        token_data = User(username=username, id=user_id)
     except JWTError:
         raise HTTPException(status_code=401, detail="Could not validate credentials")
     return token_data

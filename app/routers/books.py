@@ -1,9 +1,10 @@
 from fastapi import APIRouter, status, Depends
+from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db
 
 from app.models import Book, User
-from app.schema import BookSchema, EditBookSchema
+from app.schema import BookSchema, EditBookSchema, GetBookSchema
 from app.security import get_current_user
 
 
@@ -11,9 +12,21 @@ router = APIRouter(prefix="/authors/{author_id}/books", tags=["books"])
 
 
 @router.get("/")
-def get_all(current_user: User = Depends(get_current_user)):
-
-    return JSONResponse(status_code=status.HTTP_200_OK, content=dict(detail="Successful"))
+def get_all(author_id, current_user: User = Depends(get_current_user)):
+    all_books = Book.get_all_by_author(author_id)
+    books = [GetBookSchema(
+        title=book.title,
+        author=book.author.name,
+        isbn=book.isbn,
+        publish_year=book.publish_year,
+        cost=book.cost,
+        currency=book.currency,
+        pages=book.pages
+    ) for book in all_books]
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content=dict(detail="Books get successful", books=jsonable_encoder(books))
+    )
 
 
 @router.get("/{book_id}")
