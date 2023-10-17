@@ -13,19 +13,24 @@ router = APIRouter(prefix="/authors/{author_id}/books", tags=["books"])
 
 @router.get("/")
 def get_all(author_id, current_user: User = Depends(get_current_user)):
-    all_books = Book.get_all_by_author(author_id)
-    books = [GetBookSchema(
-        title=book.title,
-        author=book.author.name,
-        isbn=book.isbn,
-        publish_year=book.publish_year,
-        cost=book.cost,
-        currency=book.currency,
-        pages=book.pages
-    ) for book in all_books]
+    if author_id:
+        all_books = Book.get_all_by_author(author_id)
+    else:
+        all_books = Book.get_all_by_user(current_user.id)
+    books = [
+        GetBookSchema(
+            title=book.title,
+            author=book.author.name,
+            isbn=book.isbn,
+            publish_year=book.publish_year,
+            cost=book.cost,
+            currency=book.currency or "$",
+            pages=book.pages,
+        )
+        for book in all_books
+    ]
     return JSONResponse(
-        status_code=status.HTTP_200_OK,
-        content=dict(detail="Books get successful", books=jsonable_encoder(books))
+        status_code=status.HTTP_200_OK, content=dict(detail="Books get successful", books=jsonable_encoder(books))
     )
 
 
@@ -38,10 +43,7 @@ def get(author_id, book_id, current_user: User = Depends(get_current_user)):
 
     return JSONResponse(
         status_code=status.HTTP_200_OK,
-        content=dict(
-            detail="Fetch book successful.",
-            book=dict(id=book.id, title=book.title, author_id=author_id)
-        ),
+        content=dict(detail="Fetch book successful.", book=dict(id=book.id, title=book.title, author_id=author_id)),
     )
 
 
@@ -49,7 +51,7 @@ def get(author_id, book_id, current_user: User = Depends(get_current_user)):
 def create(author_id, books: BookSchema, current_user: User = Depends(get_current_user)):
     data = books.dict()
     instances = []
-    for book in data.get('books'):
+    for book in data.get("books"):
         model_instance = Book(**book, author_id=author_id)
         instances.append(model_instance)
 
@@ -57,11 +59,7 @@ def create(author_id, books: BookSchema, current_user: User = Depends(get_curren
     db.session.commit()
     db.session.close()
     return JSONResponse(
-        status_code=status.HTTP_201_CREATED,
-        content=dict(
-            detail="Books created successfully.",
-            books=data.get('books')
-        )
+        status_code=status.HTTP_201_CREATED, content=dict(detail="Books created successfully.", books=data.get("books"))
     )
 
 
@@ -90,16 +88,13 @@ def edit(author_id, book_id, book: EditBookSchema, current_user: User = Depends(
                 pages=updated_book.pages,
                 publish_year=updated_book.publish_year,
                 cost=updated_book.cost,
-                currency=updated_book.currency
-            )
-
-        )
+                currency=updated_book.currency,
+            ),
+        ),
     )
 
 
 @router.delete("/{book_id}")
 def delete(author_id, book_id, current_user: User = Depends(get_current_user)):
     Book.get_by_author(book_id, author_id).delete(db)
-    return JSONResponse(
-        status_code=status.HTTP_200_OK,
-        content=dict(detail="Book deleted successfully"))
+    return JSONResponse(status_code=status.HTTP_200_OK, content=dict(detail="Book deleted successfully"))

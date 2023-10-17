@@ -91,11 +91,18 @@ class Book(BaseModel):
     cost = Column(Float, nullable=True)
     currency = Column(String, nullable=True)
     author_id = Column(Integer, ForeignKey("authors.id"))
+    created_by = Column(Integer, ForeignKey("users.id"))
+
 
     @staticmethod
     def get(book_id):
         book = db.session.query(Book).filter(Book.id == book_id).first()
         return book
+
+    @staticmethod
+    def get_all_by_user(user_id):
+        books = db.session.query(Book).filter(Book.created_by == user_id).all()
+        return books
 
     @staticmethod
     def get_by_author(book_id, author_id):

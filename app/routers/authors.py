@@ -18,10 +18,7 @@ router = APIRouter(
 def get_all(current_user: User = Depends(get_current_user)):
     all_authors = Author.get_all(user_id=current_user.id)
 
-    authors = [
-        GetAuthorSchema(count=count, id=author.id, name=author.name)
-        for author, count in all_authors
-    ]
+    authors = [GetAuthorSchema(count=count, id=author.id, name=author.name) for author, count in all_authors]
 
     return JSONResponse(
         status_code=status.HTTP_200_OK,
