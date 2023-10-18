@@ -27,16 +27,16 @@ class GetAuthorSchema(BaseModel):
 
 class AuthorSchema(BaseModel):
     first_name: str
-    created_by: int
+    last_name: str = None
+    id: int = None
 
     class Config:
         orm_mode = True
 
 
 class EditAuthorSchema(BaseModel):
-    id: int
-    first_name: str
-    last_name: str
+    first_name: str = None
+    last_name: str = None
 
     class Config:
         orm_mode = True
@@ -61,3 +61,4 @@ class GetBookSchema(BaseModel):
     cost: float
     currency: str
     author: str
+    id: int = None

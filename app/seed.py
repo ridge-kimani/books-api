@@ -1,6 +1,6 @@
-USER = {"username": "first_user", "first_name": "First", "last_name": "User", "password": "pswd_author321"}
+USER = {"username": "username--001", "first_name": "First", "last_name": "User", "password": "pswd_user321"}
 
-AUTHOR = {"first_name": "Brian", "last_name": "Greene"}
+AUTHOR = {"first_name": "Test", "last_name": "Author"}
 
 BOOKS = [
     {
@@ -26,4 +26,25 @@ BOOKS = [
         "cost": 3.99,
         "publish_year": 2020,
     },
+    {
+        "title": "Until the end of time",
+        "isbn": "47517242441731",
+        "pages": 200,
+        "cost": 3.99,
+        "publish_year": 2022,
+    },
+    {
+        "title": "Python programming and machine learning",
+        "isbn": "47517243341731",
+        "pages": 450,
+        "cost": "3.99",
+        "publish_year": 2023
+    },
+{
+        "title": "Beginning data structures and algorithms",
+        "isbn": "47517243341731",
+        "pages": 450,
+        "cost": "3.99",
+        "publish_year": 2021
+    }
 ]
