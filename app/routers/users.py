@@ -51,10 +51,10 @@ def register(user: RegisterSchema):
 
     password = User.hash_password(user.pop("password"))
     db_item = User(**user, password=password).save(db)
-    token = create_access_token(data=dict(sub=db_item.username))
+    token = create_access_token(data=dict(sub=db_item.username, id=db_item.id))
     return JSONResponse(
         status_code=status.HTTP_201_CREATED,
-        content=dict(detail="User created successfully.", user=user.get("username"), token=token),
+        content=dict(detail="User created successfully.", user=user.get("username"), id=db_item.id, token=token),
     )
 
 
@@ -70,6 +70,7 @@ def get_all(current_user: User = Depends(get_current_user)):
             cost=book.cost,
             currency=book.currency or "$",
             pages=book.pages,
+            id=book.id,
         )
         for book in all_books
     ]
