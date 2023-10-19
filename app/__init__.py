@@ -31,18 +31,18 @@ async def root():
 @app.post("/seed")
 def seed_data():
     user = USER.get("username")
-
+    password = User.hash_password(USER.pop("password"))
     if User.exists(user):
         user = User.get(username=user)
 
     else:
-        user = User(**USER).save(db)
+        user = User(**USER, password=password).save(db)
 
     author = Author(**AUTHOR, created_by=user.id).save(db)
 
     instances = []
     for book in BOOKS:
-        model_instance = Book(**book, author_id=author.id)
+        model_instance = Book(**book, author_id=author.id, created_by=user.id)
         instances.append(model_instance)
 
     db.session.add_all(instances)

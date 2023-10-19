@@ -3,7 +3,7 @@ from fastapi_sqlalchemy import db
 from sqlalchemy import Column, DateTime, Integer, String, Float, ForeignKey, and_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.sql import func
+from sqlalchemy.sql import func, literal
 from sqlalchemy.orm import relationship
 from passlib.context import CryptContext
 
@@ -34,7 +34,7 @@ class BaseUser(BaseModel):
     __abstract__ = True
 
     id = Column(Integer, primary_key=True, autoincrement=True, index=True)
-    first_name = Column(String, nullable=True)
+    first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=True)
 
     @hybrid_property
@@ -79,6 +79,12 @@ class User(BaseUser):
         user = db.session.query(User).filter(User.username == username).first()
         return user
 
+    def save(self, instance):
+        instance.session.add(self)
+        instance.session.commit()
+        instance.session.refresh(self)
+        return self.get(self.username)
+
 
 class Book(BaseModel):
     __tablename__ = "books"
@@ -92,7 +98,6 @@ class Book(BaseModel):
     currency = Column(String, nullable=True)
     author_id = Column(Integer, ForeignKey("authors.id"))
     created_by = Column(Integer, ForeignKey("users.id"))
-
 
     @staticmethod
     def get(book_id):
@@ -110,8 +115,8 @@ class Book(BaseModel):
         return book
 
     @staticmethod
-    def get_all_by_author(author_id):
-        books = db.session.query(Book).filter(Book.author_id == author_id).all()
+    def get_all_by_author(author_id, user_id):
+        books = db.session.query(Book).filter(and_(Book.author_id == author_id, Book.created_by == user_id)).all()
         return books
 
     @hybrid_property
@@ -133,22 +138,37 @@ class Author(BaseUser):
     created_by = Column(Integer, ForeignKey("users.id"))
 
     @staticmethod
-    def get(author_id):
-        author = db.session.query(Author).filter(Author.id == author_id).first()
+    def get(author_id, created_by):
+        author = db.session.query(Author).filter(and_(Author.id == author_id, Author.created_by == created_by)).first()
         return author
 
     @staticmethod
     def get_all(user_id):
-        authors = (
-            db.session.query(Author, func.count(Book.id).label("book_count"))
-            .join(Book)
-            .group_by(Author)
-            .filter(Author.created_by == user_id)
-            .all()
-        )
+        books = db.session.query(Book).filter(and_(Book.created_by == user_id)).first()
+        if books:
+            authors = (
+                db.session.query(Author, func.count(Book.id).label("book_count"))
+                .join(Book)
+                .group_by(Author)
+                .filter(and_(Author.created_by == user_id, Book.title.isnot(None)))
+                .all()
+            )
+            return authors
 
-        return authors
+        else:
+            authors = (
+                db.session.query(Author, literal(0).label("book_count"))
+                .filter(Author.created_by == user_id)
+                .all()
+            )
+            return authors
 
     @hybrid_property
     def serialize(self):
         return dict(name=self.name, created=self.created, updated=self.updated)
+
+    def save(self, instance):
+        instance.session.add(self)
+        instance.session.commit()
+        instance.session.refresh(self)
+        return self.get(self.id, self.created_by)
