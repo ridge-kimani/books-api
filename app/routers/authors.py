@@ -3,7 +3,7 @@ from fastapi.encoders import jsonable_encoder
 
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db
-from app.models import Author, User
+from app.models import Author, User, Book
 from app.schema import AuthorSchema, EditAuthorSchema, GetAuthorSchema
 from app.security import get_current_user
 

@@ -17,10 +17,8 @@ def get_all(author_id, current_user: User = Depends(get_current_user)):
     if not author_obj:
         return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content=dict(detail="Author not found."))
 
-    if author_id:
-        all_books = Book.get_all_by_author(author_id, current_user.id)
-    else:
-        all_books = Book.get_all_by_user(current_user.id)
+    all_books = Book.get_all_by_author(author_id, current_user.id)
+
     books = [
         GetBookSchema(
             title=book.title,

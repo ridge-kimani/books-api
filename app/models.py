@@ -34,7 +34,7 @@ class BaseUser(BaseModel):
     __abstract__ = True
 
     id = Column(Integer, primary_key=True, autoincrement=True, index=True)
-    first_name = Column(String, nullable=True)
+    first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=True)
 
     @hybrid_property
@@ -144,13 +144,13 @@ class Author(BaseUser):
 
     @staticmethod
     def get_all(user_id):
-        books = db.session.query(Book).filter(Book.created_by == user_id).first()
+        books = db.session.query(Book).filter(and_(Book.created_by == user_id)).first()
         if books:
             authors = (
                 db.session.query(Author, func.count(Book.id).label("book_count"))
                 .join(Book)
                 .group_by(Author)
-                .filter(Author.created_by == user_id)
+                .filter(and_(Author.created_by == user_id, Book.title.isnot(None)))
                 .all()
             )
             return authors

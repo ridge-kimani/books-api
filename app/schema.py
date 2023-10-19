@@ -55,10 +55,10 @@ class EditBookSchema(BaseModel):
 
 class GetBookSchema(BaseModel):
     title: str
-    isbn: str
-    pages: int
-    publish_year: int
-    cost: float
-    currency: str
-    author: str
+    isbn: str = None
+    pages: int = None
+    publish_year: int = None
+    cost: float = None
+    currency: str = None
+    author: str = None
     id: int = None
