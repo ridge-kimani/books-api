@@ -67,6 +67,7 @@ def create(author_id, books: BookSchema, current_user: User = Depends(get_curren
     data = books.dict()
     instances = []
     for book in data.get("books"):
+        book.pop('author_id')
         model_instance = Book(**book, author_id=author_id, created_by=current_user.id)
         instances.append(model_instance)
 
