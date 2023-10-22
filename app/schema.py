@@ -31,6 +31,7 @@ class AuthorSchema(BaseModel):
     first_name: str
     last_name: str = None
     id: int = None
+    updated: datetime = None
 
     class Config:
         orm_mode = True
@@ -56,15 +57,23 @@ class CreateBookSchema(BaseModel):
         orm_mode = True
 
 
+class EditBookSchema(BaseModel):
+    title: str = None
+    isbn: str = None
+    pages: int = None
+    publish_year: int = None
+    cost: float = None
+    currency: str = None
+    id: str = None
+
+
 class BookSchema(BaseModel):
-    books: list[CreateBookSchema] = []
+    books: list[EditBookSchema] = []
 
     class Config:
         orm_mode = True
 
 
-class EditBookSchema(BaseModel):
-    title: str
 
 
 class GetBookSchema(BaseModel):

@@ -111,6 +111,7 @@ def edit_multiple(books: BookSchema, current_user: User = Depends(get_current_us
             currency=book.currency or "$",
             pages=book.pages,
             id=book.id,
+            updated=book.updated
         )
         books.append(book)
     db.session.close()

@@ -77,8 +77,16 @@ def edit(author_id, author: EditAuthorSchema, current_user: User = Depends(get_c
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content=dict(
-            detail="Book edited successfully.", book=jsonable_encoder(AuthorSchema(**author, id=author_obj.id))
-        ),
+            detail="Author edited successfully.",
+            author=jsonable_encoder(
+                GetAuthorSchema(
+                    **author,
+                    name=author_obj.name,
+                    id=author_obj.id,
+                    updated=author_obj.updated or author_obj.created
+                )
+            ),
+        )
     )
 
 
