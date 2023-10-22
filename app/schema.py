@@ -65,6 +65,7 @@ class EditBookSchema(BaseModel):
     cost: float = None
     currency: str = None
     id: str = None
+    author_id: int = None
 
 
 class BookSchema(BaseModel):

@@ -87,14 +87,17 @@ def edit_multiple(books: BookSchema, current_user: User = Depends(get_current_us
 
     for book in data.get("books"):
         book_obj = Book.get(book.get("id"))
-        book_obj.title = book.get("title", book_obj.title)
-        book_obj.isbn = book.get("isbn", book_obj.isbn)
-        book_obj.pages = book.get("pages", book_obj.pages)
-        book_obj.publish_year = book.get("publish_year", book_obj.publish_year)
-        book_obj.cost = book.get("cost", book_obj.cost)
-        book_obj.currency = book.get("currency", book_obj.currency)
-        book_obj.author_id = book.get("author_id", book_obj.author_id)
-        instances.append(book_obj)
+
+        if book_obj:
+            book_obj.title = book.get("title", book_obj.title)
+            book_obj.isbn = book.get("isbn", book_obj.isbn)
+            book_obj.pages = book.get("pages", book_obj.pages)
+            book_obj.publish_year = book.get("publish_year", book_obj.publish_year)
+            book_obj.cost = book.get("cost", book_obj.cost)
+            book_obj.currency = book.get("currency", book_obj.currency)
+            book_obj.author_id = book.get("author_id", book_obj.author_id)
+
+            instances.append(book_obj)
 
     db.session.add_all(instances)
     db.session.commit()
