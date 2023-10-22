@@ -1,18 +1,18 @@
 USER = {"username": "username--001", "first_name": "First", "last_name": "User", "password": "pswd_user321"}
 
 AUTHORS = [
-    {"first_name": "First", "last_name": "Author"},
-    {"first_name": "Author", "last_name": "Second"},
-    {"first_name": "Third", "last_name": "Author"},
-    {"first_name": "Author", "last_name": "Forth"},
-    {"first_name": "Fifth", "last_name": "Author"},
-    {"first_name": "Author", "last_name": "Sixth"},
-    {"first_name": "Seventh", "last_name": "Eighth"},
-    {"first_name": "Author", "last_name": "Eighth"},
-    {"first_name": "Author", "last_name": "Ninth"},
-    {"first_name": "Tenth", "last_name": "Author"},
-    {"first_name": "Test", "last_name": "Eleventh"},
-    {"first_name": "Test", "last_name": "Twelfth"},
+    {"first_name": "John", "last_name": "Wiley"},
+    {"first_name": "Ahmad", "last_name": "Springler"},
+    {"first_name": "Barnerjee", "last_name": "Ranjan"},
+    {"first_name": "Alphalo", "last_name": "Perera"},
+    {"first_name": "Bodenstein", "last_name": "Nakamura"},
+    {"first_name": "Blecker", "last_name": "Malik"},
+    {"first_name": "Chang", "last_name": "Lipp"},
+    {"first_name": "Curtis", "last_name": "Libby"},
+    {"first_name": "Cutajar", "last_name": "Lee"},
+    {"first_name": "Espindola", "last_name": "Huang"},
+    {"first_name": "Garaguso", "last_name": "Hitz"},
+    {"first_name": "Ghosh", "last_name": "Hibi"},
 ]
 
 BOOKS = [
