@@ -96,7 +96,7 @@ BOOKS = [
         "publish_year": 2019,
     },
     {
-        "title": "Beginning data structures and algorithms",
+        "title": "The game of 0's and 1's",
         "isbn": "64341441141",
         "pages": 643,
         "cost": "53.99",
