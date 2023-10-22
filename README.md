@@ -1,6 +1,7 @@
 **Library API**
 
 #### Setup
+- Postgresql is required
 
 ```bash
 # create virtual-env
@@ -16,7 +17,7 @@ $ pip install -r requirements.txt
 $ touch .env 
 
 # Copy values from .env-sample 
-cat .env-sample >> .env # Replace the values with the correct ones
+$ cat .env-sample >> .env # Replace the values with the correct ones
 
 # update migrations
 $ alembic upgrade head
@@ -26,4 +27,6 @@ $ python server.py
 
 # Seed data
 $ curl -X POST http://localhost:5000/seed
+
+
 ```

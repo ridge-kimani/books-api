@@ -1,5 +1,5 @@
 import os
-
+import random
 from dotenv import load_dotenv
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
@@ -30,6 +30,7 @@ async def root():
 
 @app.post("/seed")
 def seed_data():
+    print('SEEDING DATA...')
     user = USER.get("username")
     password = User.hash_password(USER.pop("password"))
     if User.exists(user):
@@ -38,11 +39,18 @@ def seed_data():
     else:
         user = User(**USER, password=password).save(db)
 
-    author = Author(**AUTHOR, created_by=user.id).save(db)
+    authors_instances = []
+    for author in AUTHORS:
+        instance = Author(**author, created_by=user.id).save(db)
+        authors_instances.append(instance)
+
+    db.session.add_all(authors_instances)
+    db.session.commit()
 
     instances = []
     for book in BOOKS:
-        model_instance = Book(**book, author_id=author.id, created_by=user.id)
+        random_author = random.choice(authors_instances)
+        model_instance = Book(**book, author_id=random_author.id, created_by=user.id)
         instances.append(model_instance)
 
     db.session.add_all(instances)
