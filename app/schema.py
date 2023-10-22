@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class LoginSchema(BaseModel):
@@ -21,14 +22,16 @@ class RegisterSchema(BaseModel):
 
 class GetAuthorSchema(BaseModel):
     name: str
-    count: int
+    count: int = None
     id: int
+    updated: datetime = None
 
 
 class AuthorSchema(BaseModel):
     first_name: str
     last_name: str = None
     id: int = None
+    updated: datetime = None
 
     class Config:
         orm_mode = True
@@ -42,15 +45,36 @@ class EditAuthorSchema(BaseModel):
         orm_mode = True
 
 
-class BookSchema(BaseModel):
-    books: list = []
+class CreateBookSchema(BaseModel):
+    title: str
+    isbn: str = None
+    pages: int = None
+    publish_year: int = None
+    cost: float = None
+    currency: str = None
 
     class Config:
         orm_mode = True
 
 
 class EditBookSchema(BaseModel):
-    title: str
+    title: str = None
+    isbn: str = None
+    pages: int = None
+    publish_year: int = None
+    cost: float = None
+    currency: str = None
+    id: str = None
+    author_id: int = None
+
+
+class BookSchema(BaseModel):
+    books: list[EditBookSchema] = []
+
+    class Config:
+        orm_mode = True
+
+
 
 
 class GetBookSchema(BaseModel):
@@ -62,3 +86,4 @@ class GetBookSchema(BaseModel):
     currency: str = None
     author: str = None
     id: int = None
+    updated: datetime = None

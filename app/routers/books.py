@@ -29,6 +29,7 @@ def get_all(author_id, current_user: User = Depends(get_current_user)):
             currency=book.currency or "$",
             pages=book.pages,
             id=book.id,
+            updated=book.updated or book.created
         )
         for book in all_books
     ]
@@ -51,7 +52,8 @@ def get(author_id, book_id, current_user: User = Depends(get_current_user)):
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content=dict(
-            detail="Fetch book successful.", book=dict(id=book.id, title=book.title, author_id=book.author_id)
+            detail="Fetch book successful.",
+            book=dict(id=book.id, title=book.title, author_id=book.author_id, updated=book.updated or book.created)
         ),
     )
 
@@ -65,6 +67,7 @@ def create(author_id, books: BookSchema, current_user: User = Depends(get_curren
     data = books.dict()
     instances = []
     for book in data.get("books"):
+        book.pop('author_id')
         model_instance = Book(**book, author_id=author_id, created_by=current_user.id)
         instances.append(model_instance)
 
@@ -82,6 +85,7 @@ def create(author_id, books: BookSchema, current_user: User = Depends(get_curren
             currency=book.currency or "$",
             pages=book.pages,
             id=book.id,
+            updated=book.updated or book.created
         )
         books.append(book)
     db.session.close()

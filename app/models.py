@@ -134,7 +134,7 @@ class Book(BaseModel):
 class Author(BaseUser):
     __tablename__ = "authors"
 
-    books = relationship("Book", backref="author")
+    books = relationship("Book", backref="author", cascade="all, delete-orphan")
     created_by = Column(Integer, ForeignKey("users.id"))
 
     @staticmethod
