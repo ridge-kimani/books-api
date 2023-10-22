@@ -119,6 +119,11 @@ class Book(BaseModel):
         books = db.session.query(Book).filter(and_(Book.author_id == author_id, Book.created_by == user_id)).all()
         return books
 
+    @staticmethod
+    def count_all_by_author(author_id, user_id):
+        return db.session.query(Book).filter(and_(Book.author_id == author_id, Book.created_by == user_id)).count()
+
+
     @hybrid_property
     def serialize(self):
         return dict(
@@ -144,24 +149,12 @@ class Author(BaseUser):
 
     @staticmethod
     def get_all(user_id):
-        books = db.session.query(Book).filter(and_(Book.created_by == user_id)).first()
-        if books:
-            authors = (
-                db.session.query(Author, func.count(Book.id).label("book_count"))
-                .join(Book)
-                .group_by(Author)
-                .filter(and_(Author.created_by == user_id, Book.title.isnot(None)))
-                .all()
-            )
-            return authors
-
-        else:
-            authors = (
-                db.session.query(Author, literal(0).label("book_count"))
-                .filter(Author.created_by == user_id)
-                .all()
-            )
-            return authors
+        authors = (
+            db.session.query(Author)
+            .filter(Author.created_by == user_id)
+            .all()
+        )
+        return authors
 
     @hybrid_property
     def serialize(self):

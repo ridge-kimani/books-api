@@ -1,6 +1,19 @@
 USER = {"username": "username--001", "first_name": "First", "last_name": "User", "password": "pswd_user321"}
 
-AUTHOR = {"first_name": "Test", "last_name": "Author"}
+AUTHORS = [
+    {"first_name": "First", "last_name": "Author"},
+    {"first_name": "Author", "last_name": "Second"},
+    {"first_name": "Third", "last_name": "Author"},
+    {"first_name": "Author", "last_name": "Forth"},
+    {"first_name": "Fifth", "last_name": "Author"},
+    {"first_name": "Author", "last_name": "Sixth"},
+    {"first_name": "Seventh", "last_name": "Eighth"},
+    {"first_name": "Author", "last_name": "Eighth"},
+    {"first_name": "Author", "last_name": "Ninth"},
+    {"first_name": "Tenth", "last_name": "Author"},
+    {"first_name": "Test", "last_name": "Eleventh"},
+    {"first_name": "Test", "last_name": "Twelfth"},
+]
 
 BOOKS = [
     {
@@ -9,7 +22,7 @@ BOOKS = [
         "pages": 306,
         "publish_year": 2019,
         "cost": 16.99,
-        "currency": "$"
+        "currency": "$",
     },
     {
         "title": "Emotional Intelligent Good habits",
@@ -17,34 +30,133 @@ BOOKS = [
         "pages": 200,
         "cost": 3.99,
         "publish_year": 2017,
-        "currency": "$"
+        "currency": "$",
     },
     {
         "title": "Until the end of time",
         "isbn": "47517242441731",
         "pages": 200,
-        "cost": 3.99,
+        "cost": 34.99,
         "publish_year": 2020,
     },
     {
-        "title": "Until the end of time",
+        "title": "A history of Mathematics",
         "isbn": "47517242441731",
         "pages": 200,
-        "cost": 3.99,
-        "publish_year": 2022,
+        "cost": 31.99,
+        "publish_year": 2018,
     },
     {
         "title": "Python programming and machine learning",
         "isbn": "47517243341731",
         "pages": 450,
-        "cost": "3.99",
-        "publish_year": 2023
+        "cost": "32.99",
+        "publish_year": 2017,
     },
-{
+    {
         "title": "Beginning data structures and algorithms",
         "isbn": "47517243341731",
         "pages": 450,
-        "cost": "3.99",
-        "publish_year": 2021
-    }
+        "cost": "34.99",
+        "publish_year": 2016,
+    },
+    {
+        "title": "Exploring the diversity of life",
+        "isbn": "3898493894",
+        "pages": 500,
+        "cost": "31.99",
+        "publish_year": 2015,
+    },
+    {
+        "title": "Reconnaissance for Ethical Hackers",
+        "isbn": "434343434311",
+        "pages": 323,
+        "cost": "34.99",
+        "publish_year": 2014,
+    },
+    {
+        "title": "Two scoops Django 3.x",
+        "isbn": "141451414",
+        "pages": 432,
+        "cost": "34.99",
+        "publish_year": 2013,
+    },
+    {
+        "title": "Functional Design, Principals, Patterns and Practices",
+        "isbn": "4151411511",
+        "pages": 515,
+        "cost": "31.99",
+        "publish_year": 2023,
+    },
+    {
+        "title": "Practical Next JS",
+        "isbn": "415151511455",
+        "pages": 665,
+        "cost": "13.99",
+        "publish_year": 2019,
+    },
+    {
+        "title": "Beginning data structures and algorithms",
+        "isbn": "64341441141",
+        "pages": 643,
+        "cost": "53.99",
+        "publish_year": 2004,
+    },
+    {
+        "title": "Modern Javascript Tutorial",
+        "isbn": "62541525115",
+        "pages": 342,
+        "cost": "63.99",
+        "publish_year": 2017,
+    },
+    {
+        "title": "Guitar theory for dummies",
+        "isbn": "515145511",
+        "pages": 526,
+        "cost": "73.99",
+        "publish_year": 2003,
+    },
+    {
+        "title": "Mathematics and Computer Science",
+        "isbn": "561341511",
+        "pages": 621,
+        "cost": "93.99",
+        "publish_year": 2008,
+    },
+    {
+        "title": "Database Driven Web Development",
+        "isbn": "621415151",
+        "pages": 151,
+        "cost": "35.99",
+        "publish_year": 2002,
+    },
+    {
+        "title": "Orbital Mechanics for Engineering",
+        "isbn": "5156126363",
+        "pages": 562,
+        "cost": "13.99",
+        "publish_year": 2001,
+    },
+
+{
+        "title": "Clean Code cook book",
+        "isbn": "676345116615",
+        "pages": 511,
+        "cost": "53.99",
+        "publish_year": 2009,
+    },
+{
+        "title": "Introduction to graph theory",
+        "isbn": "6154642636",
+        "pages": 532,
+        "cost": "32.99",
+        "publish_year": 2000,
+    },
+{
+        "title": "Quantum computing algorithms",
+        "isbn": "62624156646",
+        "pages": 542,
+        "cost": "53.99",
+        "publish_year": 2010,
+    },
 ]

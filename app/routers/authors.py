@@ -19,8 +19,13 @@ def get_all(current_user: User = Depends(get_current_user)):
     all_authors = Author.get_all(current_user.id)
 
     authors = [
-        GetAuthorSchema(count=count, id=author.id, name=author.name, updated=author.updated or author.created)
-        for author, count in all_authors
+        GetAuthorSchema(
+            count=Book.count_all_by_author(author.id, current_user.id),
+            id=author.id,
+            name=author.name,
+            updated=author.updated or author.created
+        )
+        for author in all_authors
     ]
 
     return JSONResponse(
